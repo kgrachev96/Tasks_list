@@ -19,11 +19,6 @@ class Main extends React.Component<IMProp, IMState>{
         this.handleEdit = this.handleEdit.bind(this);
     }
 
-    // nextId(){
-    //     this._nextId = this._nextId || 4;
-    //     return this._nextId++;
-    // }
-
     handleStatusChange (id: any) {
         let todos = this.state.todos.map((todo: Itodo) => {
             if (todo.id === id){

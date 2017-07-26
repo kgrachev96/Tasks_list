@@ -14,6 +14,14 @@ export default class Todo extends React.Component<IProp, any> {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    //focus: HTMLInputElement;
+    
+    componentDidUpdate(prevProp: any, prevState: any){
+        if (this.state.editing){
+            this.title.focus();
+            this.title.select();
+        }
+    }
 
     handleSubmit(event: any){
         event.preventDefault();

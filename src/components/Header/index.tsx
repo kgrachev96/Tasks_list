@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Stats from '../Stats/index'
+import Stats from '../Stats/index';
 
 export default class Head extends React.Component<IHProp, any> {
     public render() {
