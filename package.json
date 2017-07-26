@@ -1,0 +1,27 @@
+{
+  "name": "proj_tasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "webpack-dev-server --content-base ./dist",
+    "build": "webpack -p",
+    "watch": "webpack --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/prop-types": "^15.5.1",
+    "@types/react": "^15.0.38",
+    "@types/react-dom": "^15.5.1",
+    "@types/webpack": "^3.0.5",
+    "prop-types": "^15.5.10",
+    "ts-loader": "^2.3.1",
+    "ts-node": "^3.2.1",
+    "tslint": "^5.5.0",
+    "tslint-react": "^3.0.0",
+    "typescript": "^2.4.2",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.6.1"
+  }
+}
