@@ -14,7 +14,6 @@ export default class Todo extends React.Component<IProp, any> {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    //focus: HTMLInputElement;
     
     componentDidUpdate(prevProp: any, prevState: any){
         if (this.state.editing){
@@ -29,6 +28,12 @@ export default class Todo extends React.Component<IProp, any> {
         this.props.onEdit(this.props.id, title);
         this.setState({ editing: false })
     }
+
+    // maxLength() {
+    //     if(this.title.value.length> 10){
+    //         this.title.value = "kek";
+    //     }
+    // }
 
 
     renderDisplay(){
@@ -54,7 +59,9 @@ export default class Todo extends React.Component<IProp, any> {
                 <input 
                     type = "text"
                     ref = {(elem: any) => this.title = elem}
-                    defaultValue = {this.props.title} 
+                    defaultValue = {this.props.title}
+                    onBlur = {() => this.setState({editing: false})}
+                    
                 />
             <Button className = "save icon" icon = "save" type = "submit"/>
         </form>

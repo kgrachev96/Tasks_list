@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {render} from 'react-dom';
+import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import todos from './todos';
 import Head from '../components/Header';
@@ -65,7 +66,15 @@ class Main extends React.Component<IMProp, IMState>{
                 
                 <Head text = "Список задач" todos = {this.state.todos}/>
                 
-                <section className = "list-todo">
+                <ReactCSSTransitionGroup 
+                component = "section" 
+                className = "list-todo"
+                transitionName = "slide"
+                transitionAppear = {true}
+                transitionAppearTimeout = {500}
+                transitionEnterTimeout = {500}
+                transitionLeaveTimeout = {500}
+                >
                     {this.state.todos.map((todo: Itodo) => (
                         <Todo 
                         key = {todo.id}
@@ -78,7 +87,7 @@ class Main extends React.Component<IMProp, IMState>{
                     />
                     ))}
 
-                </section>
+                </ReactCSSTransitionGroup>
 
                 <Form onAdd = {this.handleAdd}/>
 

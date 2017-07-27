@@ -5,7 +5,8 @@ export default class Button extends React.Component<IBProp, any> {
         return (
             <button 
             className = {this.props.className} 
-            onClick = {this.props.onClick} 
+            onClick = {this.props.onClick}
+            onBlur = {this.props.onBlur} 
             {...this.props}>
                 {
                     this.props.icon ?
