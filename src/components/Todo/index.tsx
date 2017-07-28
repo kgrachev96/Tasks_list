@@ -29,13 +29,6 @@ export default class Todo extends React.Component<IProp, any> {
         this.setState({ editing: false })
     }
 
-    // maxLength() {
-    //     if(this.title.value.length> 10){
-    //         this.title.value = "kek";
-    //     }
-    // }
-
-
     renderDisplay(){
         return (
         <div className = {`todo ${this.props.completed ? ' completed' : ''}`}>

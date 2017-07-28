@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {render} from 'react-dom';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import axios from 'axios';
 
 import todos from './todos';
 import Head from '../components/Header';
@@ -12,71 +13,92 @@ class Main extends React.Component<IMProp, IMState>{
         super(props);
 
         this.state = {
-            todos: this.props.initialData
+            todos: []
         };
+
         this.handleStatusChange = this.handleStatusChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
     }
 
+    componentDidMount() {
+        axios.get('/api/todos')
+            .then((response: any) => response.data)
+            .then((todos: any) => this.setState({ todos }))
+            .catch(this.handleError)
+    }
+
     handleStatusChange (id: any) {
-        let todos = this.state.todos.map((todo: Itodo) => {
-            if (todo.id === id){
-                todo.completed = !todo.completed;
-            }
+        axios.patch(`/api/todos/${id}`)
+            .then(response => {
+                let todos = this.state.todos.map((todo: Itodo) => {
+                    if (todo.id === id){
+                        todo = response.data;
+                    }
 
-            return todo;
-        });
+                    return todo;
+                });
 
-        this.setState({ todos });
+                this.setState({ todos });
+            })
+            .catch(this.handleError)
+
     }
 
     handleAdd (title: string){
-        let todo = {
-            id: this.state.todos.length + 1,
-            title,
-            completed: false
-        };
+        axios.post('/api/todos', { title })
+            .then(response => response.data)
+            .then(todo => {
+                let todos = [...this.state.todos, todo];
+                this.setState({ todos });
+            })
+            .catch(this.handleError)
+    }
 
-        let todos = [...this.state.todos, todo];
-
-        this.setState({ todos });
+    handleError(error: any){
+        console.error(error);
     }
 
     handleEdit(id: any, title: any){
-    let todos = this.state.todos.map((todo: Itodo) => {
-        if(todo.id === id) {
-            todo.title = title;
-        }
-        return todo;
-    });
-    this.setState({ todos });
+        axios.put(`/api/todos/${id}`, { title })
+            .then(response => {
+            let todos = this.state.todos.map((todo: Itodo) => {
+                if(todo.id === id) {
+                    todo = response.data;
+                }
+                return todo;
+            });
+            this.setState({ todos });
+            })
+        .catch(this.handleError)
     }
 
     handleDelete (id: any) {
-        let todos = this.state.todos.filter((todo: Itodo) => todo.id !== id);
-
-        this.setState({ todos });
+        axios.delete(`/api/todos/${id}`)
+            .then(() => {
+                let todos = this.state.todos.filter((todo: Itodo) => todo.id !== id);
+                this.setState({ todos });
+            })
+            .catch(this.handleError)
     }
     
     public render() {
         return (
             <main> 
-                
-                <Head text = "Список задач" todos = {this.state.todos}/>
-                
+                <Head text = "Список задач" 
+                todos = {this.state.todos}/>
                 <ReactCSSTransitionGroup 
-                component = "section" 
-                className = "list-todo"
-                transitionName = "slide"
-                transitionAppear = {true}
-                transitionAppearTimeout = {500}
-                transitionEnterTimeout = {500}
-                transitionLeaveTimeout = {500}
-                >
+                    component = "section" 
+                    className = "list-todo"
+                    transitionName = "slide"
+                    transitionAppear = {true}
+                    transitionAppearTimeout = {500}
+                    transitionEnterTimeout = {500}
+                    transitionLeaveTimeout = {500}>
+                   
                     {this.state.todos.map((todo: Itodo) => (
-                        <Todo 
+                    <Todo 
                         key = {todo.id}
                         id = {todo.id} 
                         title = {todo.title} 

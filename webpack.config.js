@@ -22,6 +22,9 @@ module.exports = {
         }]
     },
     devServer: {
+        proxy: {
+            '/api': 'http://localhost:3000'
+        },
         stats: 'errors-only'
     }
 };
