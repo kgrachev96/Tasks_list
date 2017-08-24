@@ -3,12 +3,13 @@ import {render} from 'react-dom';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
-import todos from './todos';
-import Head from '../components/Header';
-import Todo from '../components/Todo';
-import Form from '../components/Form'
+import todos from '../../todos';
+import Head from '../Header';
+import Todo from '../Todo';
+import Form from '../Form';
+import Search from '../Search';
 
-class Main extends React.Component<IMProp, IMState>{
+export default class App extends React.Component<IMProp, IMState>{
     constructor(props: any){
         super(props);
 
@@ -86,6 +87,7 @@ class Main extends React.Component<IMProp, IMState>{
     public render() {
         return (
             <main> 
+                <Search />
                 <Head text = "Список задач" 
                 todos = {this.state.todos}/>
                 <ReactCSSTransitionGroup 
@@ -110,12 +112,9 @@ class Main extends React.Component<IMProp, IMState>{
                     ))}
 
                 </ReactCSSTransitionGroup>
-
                 <Form onAdd = {this.handleAdd}/>
 
             </main>
         )
     }
 }
-
-render(<Main initialData = {todos}/>, document.getElementById('root'));

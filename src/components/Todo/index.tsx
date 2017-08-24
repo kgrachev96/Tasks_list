@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import CheckBox from '../CheckBox';
 import Button from '../Button';
+import Search from '../Search';
 
 export default class Todo extends React.Component<IProp, any> {
         
@@ -48,7 +49,7 @@ export default class Todo extends React.Component<IProp, any> {
 
     renderForm(){
         return (
-        <form className = "todo-edit-form" onSubmit = {this.handleSubmit}>  
+        <form className = "todo-edit-form" onSubmit = {this.handleSubmit}>
                 <input 
                     type = "text"
                     ref = {(elem: any) => this.title = elem}

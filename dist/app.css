@@ -84,6 +84,7 @@ main {
 
 header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding: 0 1rem;
     color: white;
@@ -97,6 +98,31 @@ header h1 {
     color: #00d8ff;
     margin: 1rem auto;
 }
+
+
+/* Search */
+
+.search {
+    display: flex;
+    background-color: #FAFAFA;
+    border-top: 1px solid rgba(0,0,0,.1);
+    padding: 10px;
+}
+
+.search_todo {
+    flex: 1;
+    outline: none;
+    transition: all .2s;
+}
+
+.search_todo:focus {
+    border: 1px solid #00d8ff;
+}
+
+.todo-form button {
+    margin-left: 10px;
+} 
+
 
 /* Stats */
 .stats {
