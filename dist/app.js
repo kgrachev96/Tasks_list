@@ -23260,9 +23260,9 @@ const todos = [
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(210);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Header__ = __webpack_require__(229);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Todo__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Form__ = __webpack_require__(234);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Search__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Todo__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Form__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Search__ = __webpack_require__(234);
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -23285,19 +23285,21 @@ var App = (function (_super) {
     function App(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            todos: []
+            todos: [],
+            filteredTodos: []
         };
         _this.handleStatusChange = _this.handleStatusChange.bind(_this);
         _this.handleDelete = _this.handleDelete.bind(_this);
         _this.handleAdd = _this.handleAdd.bind(_this);
         _this.handleEdit = _this.handleEdit.bind(_this);
+        _this.filterBy = _this.filterBy.bind(_this);
         return _this;
     }
     App.prototype.componentDidMount = function () {
         var _this = this;
         __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/todos')
             .then(function (response) { return response.data; })
-            .then(function (todos) { return _this.setState({ todos: todos }); })
+            .then(function (todos) { return _this.setState({ todos: todos, filteredTodos: todos }); })
             .catch(this.handleError);
     };
     App.prototype.handleStatusChange = function (id) {
@@ -23350,12 +23352,21 @@ var App = (function (_super) {
         })
             .catch(this.handleError);
     };
+    App.prototype.filterBy = function (field, value) {
+        if (value != "") {
+            var filteredTodos = this.state.todos.filter(function (todo) { return todo[field].includes(value); });
+            this.setState({ filteredTodos: filteredTodos });
+        }
+        else {
+            this.setState({ filteredTodos: this.state.todos });
+        }
+    };
     App.prototype.render = function () {
         var _this = this;
         return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("main", null,
-            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_6__Search__["a" /* default */], null),
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_6__Search__["a" /* default */], { filterBy: this.filterBy }),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_3__Header__["a" /* default */], { text: "Список задач", todos: this.state.todos }),
-            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_1_react_addons_css_transition_group__, { component: "section", className: "list-todo", transitionName: "slide", transitionAppear: true, transitionAppearTimeout: 500, transitionEnterTimeout: 500, transitionLeaveTimeout: 500 }, this.state.todos.map(function (todo) { return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_4__Todo__["a" /* default */], { key: todo.id, id: todo.id, title: todo.title, completed: todo.completed, onStatusChange: _this.handleStatusChange, onDelete: _this.handleDelete, onEdit: _this.handleEdit })); })),
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_1_react_addons_css_transition_group__, { component: "section", className: "list-todo", transitionName: "slide", transitionAppear: true, transitionAppearTimeout: 500, transitionEnterTimeout: 500, transitionLeaveTimeout: 500 }, this.state.filteredTodos.map(function (todo) { return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_4__Todo__["a" /* default */], { key: todo.id, id: todo.id, title: todo.title, completed: todo.completed, onStatusChange: _this.handleStatusChange, onDelete: _this.handleDelete, onEdit: _this.handleEdit })); })),
             __WEBPACK_IMPORTED_MODULE_0_react__["createElement"](__WEBPACK_IMPORTED_MODULE_5__Form__["a" /* default */], { onAdd: this.handleAdd })));
     };
     return App;
@@ -25437,48 +25448,7 @@ var Stats = (function (_super) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-var Search = (function (_super) {
-    __extends(Search, _super);
-    function Search(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            search_todo: ''
-        };
-        _this.handleChange = _this.handleChange.bind(_this);
-        return _this;
-    }
-    Search.prototype.handleChange = function (event) {
-        var search_todo = event.target.value;
-        this.setState({ search_todo: search_todo });
-    };
-    Search.prototype.render = function () {
-        return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("form", { className: "search" },
-            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("input", { className: "search_todo", type: "text", value: this.state.search_todo, placeholder: 'Что нужно найти?', onChange: this.handleChange })));
-    };
-    return Search;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]));
-/* harmony default export */ __webpack_exports__["a"] = (Search);
-
-
-/***/ }),
-/* 232 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CheckBox__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CheckBox__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Button__ = __webpack_require__(94);
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -25538,7 +25508,7 @@ var Todo = (function (_super) {
 
 
 /***/ }),
-/* 233 */
+/* 232 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25571,7 +25541,7 @@ var CheckBox = (function (_super) {
 
 
 /***/ }),
-/* 234 */
+/* 233 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25621,6 +25591,50 @@ var Form = (function (_super) {
     return Form;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]));
 /* harmony default export */ __webpack_exports__["a"] = (Form);
+
+
+/***/ }),
+/* 234 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var Search = (function (_super) {
+    __extends(Search, _super);
+    function Search(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            search_todo: ''
+        };
+        _this.handleChange = _this.handleChange.bind(_this);
+        return _this;
+    }
+    Search.prototype.handleChange = function (event) {
+        var search_todo = event.target.value;
+        this.setState({ search_todo: search_todo });
+        if (search_todo) {
+            this.props.filterBy("title", search_todo);
+        }
+    };
+    Search.prototype.render = function () {
+        return (__WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("form", { className: "search" },
+            __WEBPACK_IMPORTED_MODULE_0_react__["createElement"]("input", { className: "search_todo", type: "text", value: this.state.search_todo, placeholder: 'Что нужно найти?', onChange: this.handleChange })));
+    };
+    return Search;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]));
+/* harmony default export */ __webpack_exports__["a"] = (Search);
 
 
 /***/ })

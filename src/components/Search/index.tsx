@@ -7,14 +7,17 @@ export default class Search extends React.Component<any, any> {
 
         this.state = {
             search_todo: ''
-        };
-
+        }
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event: any) {
+    handleChange(event: any){
         let search_todo = event.target.value;
-        this.setState({search_todo});
+        this.setState( { search_todo } )
+            if(search_todo){
+                this.props.filterBy("title", search_todo);
+            }
+          
     }
 
     render() {

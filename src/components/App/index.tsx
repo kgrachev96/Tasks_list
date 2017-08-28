@@ -14,19 +14,21 @@ export default class App extends React.Component<IMProp, IMState>{
         super(props);
 
         this.state = {
-            todos: []
+            todos: [],
+            filteredTodos: []
         };
 
         this.handleStatusChange = this.handleStatusChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.filterBy = this.filterBy.bind(this);
     }
 
     componentDidMount() {
         axios.get('/api/todos')
             .then((response: any) => response.data)
-            .then((todos: any) => this.setState({ todos }))
+            .then((todos: any) => this.setState({todos, filteredTodos: todos}))
             .catch(this.handleError)
     }
 
@@ -46,6 +48,7 @@ export default class App extends React.Component<IMProp, IMState>{
             .catch(this.handleError)
 
     }
+
 
     handleAdd (title: string){
         axios.post('/api/todos', { title })
@@ -83,11 +86,25 @@ export default class App extends React.Component<IMProp, IMState>{
             })
             .catch(this.handleError)
     }
+
+
+    filterBy(field: any, value: any) {
+        if (value != "") {
+            let filteredTodos = this.state.todos.filter((todo: Itodo) => todo[field].includes(value))
+            this.setState({ filteredTodos });
+        }
+        else { 
+            this.setState({filteredTodos: this.state.todos});
+        }
+    }
+    
     
     public render() {
+        
         return (
+            
             <main> 
-                <Search />
+                <Search filterBy = {this.filterBy}/>
                 <Head text = "Список задач" 
                 todos = {this.state.todos}/>
                 <ReactCSSTransitionGroup 
@@ -98,8 +115,7 @@ export default class App extends React.Component<IMProp, IMState>{
                     transitionAppearTimeout = {500}
                     transitionEnterTimeout = {500}
                     transitionLeaveTimeout = {500}>
-                   
-                    {this.state.todos.map((todo: Itodo) => (
+                    {this.state.filteredTodos.map((todo: Itodo) => (
                     <Todo 
                         key = {todo.id}
                         id = {todo.id} 
