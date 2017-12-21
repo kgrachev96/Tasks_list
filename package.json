@@ -17,7 +17,7 @@
     "@types/react-dom": "^15.5.1",
     "@types/webpack": "^3.0.5",
     "prop-types": "^15.5.10",
-    "react-addons-css-transition-group": "^15.6.0",
+    "react-addons-css-transition-group": "^15.6.2",
     "ts-loader": "^2.3.1",
     "ts-node": "^3.2.1",
     "tslint": "^5.5.0",
@@ -29,6 +29,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }

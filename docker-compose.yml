@@ -1,0 +1,33 @@
+version: "2"
+services:
+  ddmanager_website_nginx:
+    build: ./docker/nginx/
+    ports:
+      - 80:80
+    links:
+      - ddmanager_website_php
+    volumes_from:
+      - ddmanager_website_app
+
+  todo_website_server:
+    image: php:7.0-fpm
+    expose:
+      - 9000
+    volumes_from:
+      - ddmanager_website_app
+    environment:
+      APPLICATION_ENV: development
+
+  todo_website_composer:
+    image: package/package:latest
+    volumes:
+        - ./:/app
+    environment:
+      APPLICATION_ENV: development
+    command: update
+
+  todo_website_app:
+    image: php:7.0-fpm
+    volumes:
+        - ./:/var/www/html
+    command: "true"

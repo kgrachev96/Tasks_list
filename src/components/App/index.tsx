@@ -115,7 +115,7 @@ export default class App extends React.Component<IMProp, IMState>{
                     transitionAppearTimeout = {500}
                     transitionEnterTimeout = {500}
                     transitionLeaveTimeout = {500}>
-                    {this.state.filteredTodos.map((todo: Itodo) => (
+                    {this.state.todos.map((todo: Itodo) => (
                     <Todo 
                         key = {todo.id}
                         id = {todo.id} 
